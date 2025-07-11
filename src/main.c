@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danslav1e <danslav1e@student.42.fr>        +#+  +:+       +#+        */
+/*   By: llupache <llupache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 16:10:42 by danslav1e         #+#    #+#             */
-/*   Updated: 2025/07/11 18:41:56 by danslav1e        ###   ########.fr       */
+/*   Updated: 2025/07/11 19:26:41 by llupache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int argc, char **argv)
 	if (start_simulation(tab) != 0)
 		return (EXIT_FAILURE);
 	i = 0;
-	while (check_alive(tab) && check_times_ate(tab))
+	while (check_alive(tab) && check_times_ate(tab) && !tab->stop)
 		usleep(5000);
 	while (i < tab->nb_p)
 		pthread_join(tab->threads[i++], NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danslav1e <danslav1e@student.42.fr>        +#+  +:+       +#+        */
+/*   By: llupache <llupache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 15:04:12 by danslav1e         #+#    #+#             */
-/*   Updated: 2025/07/11 18:14:17 by danslav1e        ###   ########.fr       */
+/*   Updated: 2025/07/11 19:30:03 by llupache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,4 @@ int	error(t_table *tab, char *str, char *detail, int exit_nb)
 	else
 		printf(str, STR_PROG_NAME);
 	return (exit_nb);
-}
-
-void	void_error(t_table *tab, char *str, char *detail)
-{
-	if (tab)
-		free_all(tab);
-	error(tab, str, detail, EXIT_FAILURE);
 }

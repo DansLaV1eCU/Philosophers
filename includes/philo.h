@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danslav1e <danslav1e@student.42.fr>        +#+  +:+       +#+        */
+/*   By: llupache <llupache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 14:20:22 by danslav1e         #+#    #+#             */
-/*   Updated: 2025/07/11 18:13:43 by danslav1e        ###   ########.fr       */
+/*   Updated: 2025/07/11 19:30:07 by llupache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,10 @@ long					get_time_ms(void);
 void					print_message(t_table *tab, long time, int p_nb,
 							const char *s);
 void					destroy_mutex(t_table *tab);
+void					philo_died(t_table *tab, long time, int nb);
 
 // error.c
 int						error(t_table *tab, char *str, char *detail,
 							int exit_nb);
-void					void_error(t_table *tab, char *str, char *detail);
 
 #endif
