@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/danslav1e/42Projects/philosophers",
-      "program": "/home/danslav1e/42Projects/philosophers/build/Debug/outDebug",
+      "cwd": "/home/danslav1e/42Projects/philosophers/src",
+      "program": "/home/danslav1e/42Projects/philosophers/src/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

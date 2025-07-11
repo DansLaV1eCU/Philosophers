@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llupache <llupache@student.42.fr>          +#+  +:+       +#+        */
+/*   By: danslav1e <danslav1e@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 16:10:42 by danslav1e         #+#    #+#             */
-/*   Updated: 2025/07/11 20:09:31 by llupache         ###   ########.fr       */
+/*   Updated: 2025/07/11 23:44:48 by danslav1e        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	eating(t_table *tab, t_philo *philo)
 	long	start_time;
 
 	start_time = get_time_ms() - tab->start_time;
-	if (start_time - philo->last_time_ate > tab->time_to_die)
-		return (philo_died(tab, philo->p_number, start_time));	
 	if (tab->stop)
 		return ;
 	philo->last_time_ate = get_time_ms();
