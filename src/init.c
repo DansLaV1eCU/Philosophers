@@ -6,7 +6,7 @@
 /*   By: danslav1e <danslav1e@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 16:10:42 by danslav1e         #+#    #+#             */
-/*   Updated: 2025/07/11 18:02:44 by danslav1e        ###   ########.fr       */
+/*   Updated: 2025/07/22 23:04:30 by danslav1e        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,27 @@
 int	init(t_table *tab)
 {
 	pthread_mutex_t	*print_mutex;
+	pthread_mutex_t	*stop_mutex;
+	pthread_mutex_t	*min_times_ate_mutex;
 
 	print_mutex = malloc(sizeof(pthread_mutex_t));
 	if (!print_mutex)
 		return (error(tab, STR_ERR_MALLOC, "init", EXIT_FAILURE));
 	if (pthread_mutex_init(print_mutex, NULL) != 0)
 		return (error(tab, STR_ERR_MUTEX, "mutex_to_print init", EXIT_FAILURE));
+	stop_mutex = malloc(sizeof(pthread_mutex_t));
+	if (!stop_mutex)
+		return (error(tab, STR_ERR_MALLOC, "init", EXIT_FAILURE));
+	if (pthread_mutex_init(stop_mutex, NULL) != 0)
+		return (error(tab, STR_ERR_MUTEX, "mutex_to_stop init", EXIT_FAILURE));
+	min_times_ate_mutex = malloc(sizeof(pthread_mutex_t));
+	if (!min_times_ate_mutex)
+		return (error(tab, STR_ERR_MALLOC, "init", EXIT_FAILURE));
+	if (pthread_mutex_init(min_times_ate_mutex, NULL) != 0)
+		return (error(tab, STR_ERR_MUTEX, "mutex_min_times_ate init", EXIT_FAILURE));
 	tab->mutex_to_print = print_mutex;
+	tab->mutex_to_stop = stop_mutex;
+	tab->mutex_min_times_ate = min_times_ate_mutex;
 	if (init_mutex(tab) != 0)
 		return (EXIT_FAILURE);
 	if (init_philos(tab) != 0)
@@ -36,6 +50,8 @@ int	init(t_table *tab)
 int	init_philos(t_table *tab)
 {
 	t_philo	*philos;
+	pthread_mutex_t *last_time_ate_mutex;
+	pthread_mutex_t *times_ate_mutex;
 	int		i;
 
 	philos = malloc(sizeof(t_philo) * tab->nb_p);
@@ -44,6 +60,18 @@ int	init_philos(t_table *tab)
 	i = 0;
 	while (i < tab->nb_p)
 	{
+		last_time_ate_mutex = malloc(sizeof(pthread_mutex_t));
+		if (!last_time_ate_mutex)
+			return (error(tab, STR_ERR_MALLOC, "init", EXIT_FAILURE));
+		if (pthread_mutex_init(last_time_ate_mutex, NULL) != 0)
+			return (error(tab, STR_ERR_MUTEX, "mutex_last_time_ate init", EXIT_FAILURE));
+		times_ate_mutex = malloc(sizeof(pthread_mutex_t));
+		if (!times_ate_mutex)
+			return (error(tab, STR_ERR_MALLOC, "init", EXIT_FAILURE));
+		if (pthread_mutex_init(times_ate_mutex, NULL) != 0)
+			return (error(tab, STR_ERR_MUTEX, "mutex_times_ate init", EXIT_FAILURE));
+		philos[i].mutex_last_time_ate = last_time_ate_mutex;
+		philos[i].mutex_times_ate = times_ate_mutex;
 		philos[i].p_number = i + 1;
 		philos[i].times_ate = 0;
 		philos[i].table = tab;

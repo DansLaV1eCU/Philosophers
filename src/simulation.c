@@ -6,7 +6,7 @@
 /*   By: danslav1e <danslav1e@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 20:44:42 by danslav1e         #+#    #+#             */
-/*   Updated: 2025/07/11 23:47:10 by danslav1e        ###   ########.fr       */
+/*   Updated: 2025/07/22 22:49:02 by danslav1e        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	start_simulation(t_table *tab)
 
 void	*simulation(t_philo *philo)
 {
-	while (!philo->table->stop)
+	while (!check_stop(philo->table))
 	{
 		if (philo->table->nb_p == 1)
 		{
@@ -50,9 +50,47 @@ void	*simulation(t_philo *philo)
 		eating(philo->table, philo);
 		sleeping(philo->table, philo);
 		thinking(philo->table, philo);
-		while (philo->times_ate > philo->table->min_lunches
-			&& !philo->table->stop)
-			usleep(5000);
+		while (check_if_time_to_repeat(philo->table, philo))
+			usleep(100);
 	}
 	return (NULL);
+}
+
+// bool	check_if_time_to_repeat(t_table *tab, t_philo *ph)
+// {
+// 	pthread_mutex_lock(ph->mutex_times_ate);
+// 	pthread_mutex_lock(tab->mutex_min_times_ate);
+// 	pthread_mutex_lock(tab->mutex_to_stop);
+// 	if (ph->times_ate > tab->min_lunches && !tab->stop)
+// 	{
+// 		pthread_mutex_unlock(ph->mutex_times_ate);
+// 		pthread_mutex_unlock(tab->mutex_min_times_ate);
+// 		pthread_mutex_unlock(tab->mutex_to_stop);
+// 		return (true);
+// 	}
+// 	pthread_mutex_unlock(ph->mutex_times_ate);
+// 	pthread_mutex_unlock(tab->mutex_min_times_ate);
+// 	pthread_mutex_unlock(tab->mutex_to_stop);
+// 	return (false);
+// }
+
+bool	check_if_time_to_repeat(t_table *tab, t_philo *ph)
+{
+    int times_ate;
+    int min_lunches;
+    bool stop_flag;
+
+    pthread_mutex_lock(ph->mutex_times_ate);
+    times_ate = ph->times_ate;
+    pthread_mutex_unlock(ph->mutex_times_ate);
+
+    pthread_mutex_lock(tab->mutex_min_times_ate);
+    min_lunches = tab->min_lunches;
+    pthread_mutex_unlock(tab->mutex_min_times_ate);
+
+    pthread_mutex_lock(tab->mutex_to_stop);
+    stop_flag = tab->stop;
+    pthread_mutex_unlock(tab->mutex_to_stop);
+
+    return (times_ate > min_lunches && !stop_flag);
 }
